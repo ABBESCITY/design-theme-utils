@@ -1,0 +1,14 @@
+{
+  "palette": {
+    "primary": "red",
+    "secondary": "green"
+  },
+  "other": {
+    "fontSize": {
+      "xl": "1rem"
+    },
+    "fontWeight": {},
+    "radius": {},
+    "edge": {}
+  }
+}
