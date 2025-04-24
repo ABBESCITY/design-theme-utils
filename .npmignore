@@ -1,0 +1,4 @@
+# .npmignore
+test/
+.env
+*.config.js
