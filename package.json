@@ -1,0 +1,24 @@
+{
+  "name": "@abbes/design-theme-color",
+  "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tony-Jack2017/color.git"
+  },
+  "description": "The libarary for generate theme variable for apsc",
+  "author": "GWR",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "node ./src/index.js"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@material/material-color-utilities": "^0.3.0",
+    "tinycolor2": "^1.6.0"
+  }
+}
