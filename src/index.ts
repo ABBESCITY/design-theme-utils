@@ -7,51 +7,65 @@ import {
   createPalette,
   DARK_BRIGHTNESS,
   LIGHT_BRIGHTNESS,
-} from "./palette/index.js";
+} from "./palette";
 
+
+/* 
+  DESC Constant variable
+*/
 const WITH_CUSMARK = true;
 const WITHOUT_CUSMARK = false;
 
-const createTheme = (palette, isDark) => {
+/* 
+  DESC The utils function
+*/
+const createTheme = (palette: JSONObject, isDark: boolean) => {
   return createPalette(palette, isDark ? DARK_BRIGHTNESS : LIGHT_BRIGHTNESS);
 };
-
-const transValueToVariable = (prefix, valueList, withCusMark, markList) => {
-  return Object.keys(valueList).reduce((pre, item) => {
-    if (withCusMark) {
+const transValueToVariable = (prefix: string, valueList: JSONObject, withCusMark: boolean, markList?: number[]) => {
+  return Object.keys(valueList).reduce((pre: any[], item) => {
+    if (withCusMark && markList) {
       return pre.concat(
         ...markList.map((mark, index) => {
           return {
             varName: [`--${prefix}-${item}-${mark}`],
-            varValue: valueList[item][index],
-          };
+            varValue: Array.isArray(valueList[item]) ? (valueList[item] as JSONArray)[index] : null,
+          }
         })
-      );
+      )
     } else {
       return pre.concat(
-        ...Object.keys(valueList[item]).map((value) => {
+        ...Object.keys(valueList[item] as JSONObject).map((value) => {
           return {
             varName: [`--${prefix}-${item}-${value}`],
-            varValue: valueList[item][value],
-          };
+            varValue: (valueList[item] as JSONObject)?.[value],
+          }
         })
-      );
+      )
     }
   }, []);
 };
 
-const themeTransVar = (theme, isDark) => {
+/* 
+  DESC The utils function generate css variable with theme
+*/
+export const themeTransVar = (theme: JSONObject, isDark: boolean) => {
   const varMap = {};
+  const defaultTheme = {
+    palette: theme.palette,
+    other: theme.other
+  }
   transValueToVariable(
     "apsc",
-    createTheme(defaultTheme.palette, false),
+    createTheme(defaultTheme.palette as JSONObject, false),
     WITH_CUSMARK,
     isDark ? DARK_BRIGHTNESS : LIGHT_BRIGHTNESS
   ).reduce((pre, variable) => {
     pre[variable.varName] = tinycolor(variable.varValue).toRgbString();
     return pre;
   }, varMap);
-  transValueToVariable("apsc", defaultTheme.other, WITHOUT_CUSMARK).reduce(
+
+  transValueToVariable("apsc", defaultTheme.other as JSONObject, WITHOUT_CUSMARK).reduce(
     (pre, variable) => {
       pre[variable.varName] = variable.varValue;
       return pre;
@@ -59,8 +73,4 @@ const themeTransVar = (theme, isDark) => {
     varMap
   );
   return varMap;
-};
-
-export default {
-  themeTransVar,
 };

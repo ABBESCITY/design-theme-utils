@@ -1,10 +1,16 @@
 {
   "name": "@abbes/design-theme-color",
   "version": "1.0.0",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
-  "main": "index.js",
+  "main": "./distindex.js",
+  ".": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.js",
+    "types": "./dist/types/index.d.ts"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Tony-Jack2017/color.git"
@@ -12,11 +18,15 @@
   "description": "The libarary for generate theme variable for apsc",
   "author": "GWR",
   "license": "MIT",
-  "type": "module",
   "scripts": {
-    "dev": "node ./src/index.js"
+    "dev": "node --experimental-specifier-resolution=node dist/index.js",
+    "build": "tsc",
+    "publish": "npm builsh"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/tinycolor2": "^1.4.6",
+    "typescript": "^5.8.3"
+  },
   "dependencies": {
     "@material/material-color-utilities": "^0.3.0",
     "tinycolor2": "^1.6.0"
